@@ -1,7 +1,7 @@
-⚙️ render.yaml (for easy deployment on render.com)
+
 
 yaml
-CopyEdit
+
 services:
   - type: web
     name: sports-card-backend
