@@ -1,7 +1,3 @@
-requirements.txt
-
-txt
-CopyEdit
 fastapi
 uvicorn
 python-multipart
