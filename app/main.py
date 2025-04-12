@@ -1,11 +1,20 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import os
 import json
 from datetime import datetime
 
 app = FastAPI()
 
+# === CORS Middleware ===
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can replace with ["https://your-app.com"] in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # === Setup Directories ===
 DATA_DIR = "training_data"
@@ -46,20 +55,23 @@ def read_root():
 
 @app.post("/analyze-card")
 async def analyze_card(file: UploadFile = File(...)):
-    # Save image
+    # Save uploaded image
     filename = save_uploaded_image(file)
 
-    # Placeholder AI logic
+    # Placeholder AI logic (replace later with real model)
     prediction = "Example Card Name"
+    confidence = 0.95  # Fake value for now
 
     # Log the prediction
     log_prediction(filename, prediction)
 
-    # Return fake match results
+    # Return dummy listing data
     return JSONResponse({
-        "card_detected": prediction,
-        "suggested_matches": [
-            {"site": "eBay", "listing": "https://www.ebay.com/example", "price": "$39.99"},
-            {"site": "130Point", "sold": "https://www.130point.com/example", "price": "$34.50"},
+        "identified_card": prediction,
+        "confidence": confidence,
+        "listings": [
+            {"title": "Example on eBay", "price": "$39.99", "link": "https://www.ebay.com/example"},
+            {"title": "Example on 130Point", "price": "$34.50", "link": "https://www.130point.com/example"},
         ]
     })
+
